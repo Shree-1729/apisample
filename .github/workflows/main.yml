@@ -2,8 +2,7 @@ name: Download Excel Sheet
 
 # This workflow runs on push events to the main branch
 on:
-  push:
-    branches: [ main ]
+  workflow_dispatch:
 
 # Jobs to be executed in the workflow
 jobs:
