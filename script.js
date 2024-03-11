@@ -87,6 +87,6 @@ function downloadExcel(apiUrl, filename) {
         });
     });
 }
-var apiUrl = APIENDPOINT;
+var apiUrl = "https://jsonplaceholder.typicode.com/todos/1";
 var filename = 'my_data.xlsx';
 downloadExcel(apiUrl, filename);
