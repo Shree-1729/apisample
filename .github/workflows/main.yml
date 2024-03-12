@@ -26,6 +26,7 @@ jobs:
       # Download data and generate Excel sheet
       - name: Download and create Excel
         run: |
+          tsc script.ts
           node script.js  # Replace with your script filename
         env:
           API_URL: 'https://jsonplaceholder.typicode.com/todos/1'  # Replace with your actual API URL
