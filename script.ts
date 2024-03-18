@@ -18,7 +18,7 @@ function generateExcel(data: any[], filename: string) {
   const ws = XLSX.utils.json_to_sheet(data);
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-
+  
   XLSX.writeFile(wb, filename);
   console.log('Excel file created successfully:', filename);
 }
@@ -35,6 +35,8 @@ generateExcel(dataAsArray, filename);
 
 // Example usage: Replace 'https://your-api.com/data' with your actual API URL
 const apiUrl = '${{secrets.APIENDPOINT}}';
-const filename = 'my_data.xlsx';
+ const currentDate = new Date();
+ const formattedDate = currentDate.toISOString().replace(/:/g, '-').replace(/\..+/, '');  
+const filename =`${formattedDate}.xlsx`;
 
 downloadExcel(apiUrl, filename);
