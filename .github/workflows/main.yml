@@ -32,11 +32,11 @@ jobs:
         env:
           API_URL: 'https://jsonplaceholder.typicode.com/todos/1'  # Replace with your actual API URL
 
-      # Rename the output file to include the current date
+      # Set current date as an environment variable
       - name: Set current date
-        id: set_date
-        run: echo "::set-env name=CURRENT_DATE::$(date +'%Y-%m-%d')"
+        run: echo "CURRENT_DATE=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
 
+      # Rename the output file to include the current date
       - name: Rename output file
         run: mv my_data.xlsx $CURRENT_DATE.xlsx
 
