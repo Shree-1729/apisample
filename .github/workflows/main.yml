@@ -33,10 +33,15 @@ jobs:
 
       # Rename the output file to include the current date
       - name: Rename output file
-        run: mv my_data.xlsx "$(date +'%Y-%m-%d').xlsx"
+        run: mv my_data.xlsx ${{ format('{0}.xlsx', steps.set_date.outputs.current_date) }}
+
+      - name: Set current date
+        id: set_date
+        run: echo "::set-output name=current_date::$(date +'%Y-%m-%d')"
 
       # Upload generated Excel file as an artifact
-      - uses: actions/upload-artifact@v3
+      - name: Upload Excel file
+        uses: actions/upload-artifact@v3
         with:
           name: excel-data
-          path: "$(date +'%Y-%m-%d').xlsx"
+          path: ${{ format('{0}.xlsx', steps.set_date.outputs.current_date) }}
