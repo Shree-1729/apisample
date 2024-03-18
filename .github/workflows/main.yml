@@ -31,9 +31,12 @@ jobs:
         env:
           API_URL: 'https://jsonplaceholder.typicode.com/todos/1'  # Replace with your actual API URL
 
+      # Rename the output file to include the current date
+      - name: Rename output file
+        run: mv my_data.xlsx "$(date +'%Y-%m-%d').xlsx"
+
       # Upload generated Excel file as an artifact
       - uses: actions/upload-artifact@v3
         with:
           name: excel-data
-          path: my_data.xlsx  # Replace with your output filename
-
+          path: "$(date +'%Y-%m-%d').xlsx"
