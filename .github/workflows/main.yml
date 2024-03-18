@@ -12,7 +12,8 @@ jobs:
 
     steps:
       # Checkout the code
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
       # Use Node.js 16
       - name: Use Node.js 16
@@ -32,14 +33,17 @@ jobs:
         env:
           API_URL: 'https://jsonplaceholder.typicode.com/todos/1'  # Replace with your actual API URL
 
-      # Capture the filename generated dynamically
-      - name: Capture filename
-        id: filename
-        run: echo "::set-output name=filename::$(date +'%Y-%m-%d-%H-%M-%S').xlsx"
+      # Capture the filename generated dynamically and save it to GITHUB_STATE
+      - name: Capture filename and save to state
+        run: echo "FILENAME=$(date +'%Y-%m-%d-%H-%M-%S').xlsx" >> $GITHUB_ENV
 
       # Upload generated Excel file as an artifact
       - name: Upload Excel file
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ steps.filename.outputs.filename }}
+          name: ${{ env.FILENAME }}
           path: my_data.xlsx  # Replace with your output filename
+
+      # Set output filename using GITHUB_OUTPUT
+      - name: Set output filename
+        run: echo "filename=${{ env.FILENAME }}" >> $GITHUB_ENV
