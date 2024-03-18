@@ -3,7 +3,7 @@ name: Download Excel Sheet
 # This workflow runs on push events to the main branch
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 # Jobs to be executed in the workflow
 jobs:
@@ -14,12 +14,13 @@ jobs:
       # Checkout the code
       - uses: actions/checkout@v3
 
-      # Install dependencies (assuming Node.js)
-      - name: Use Node.js 16
+      # Use Node.js version 20
+      - name: Use Node.js 20
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: '20'
 
+      # Install dependencies (assuming Node.js)
       - name: Install dependencies
         run: npm install  # Adjust if you use a different package manager
 
@@ -32,16 +33,16 @@ jobs:
           API_URL: 'https://jsonplaceholder.typicode.com/todos/1'  # Replace with your actual API URL
 
       # Rename the output file to include the current date
-      - name: Rename output file
-        run: mv my_data.xlsx ${{ format('{0}.xlsx', steps.set_date.outputs.current_date) }}
-
       - name: Set current date
         id: set_date
-        run: echo "::set-output name=current_date::$(date +'%Y-%m-%d')"
+        run: echo "::set-env name=CURRENT_DATE::$(date +'%Y-%m-%d')"
+
+      - name: Rename output file
+        run: mv my_data.xlsx $CURRENT_DATE.xlsx
 
       # Upload generated Excel file as an artifact
       - name: Upload Excel file
         uses: actions/upload-artifact@v3
         with:
           name: excel-data
-          path: ${{ format('{0}.xlsx', steps.set_date.outputs.current_date) }}
+          path: ${{ runner.workspace }}/$CURRENT_DATE.xlsx
