@@ -42,7 +42,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: ${{ env.FILENAME }}
-          path: my_data.xlsx  # Replace with your output filename
+          path:  ${{ env.FILENAME }}.xlsx  # Replace with your output filename
 
       # Set output filename using GITHUB_OUTPUT
       - name: Set output filename
