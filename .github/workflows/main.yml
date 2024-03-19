@@ -26,7 +26,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: ${{ env.FILENAME }}
-          path:  ${{ env.FILENAME }} 
+          path:  monitors.xlsx
 
       # Set output filename using GITHUB_OUTPUT
       - name: Set output filename
