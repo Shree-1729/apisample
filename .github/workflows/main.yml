@@ -8,7 +8,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: Use Node.js 16
+      - name: Use Node.js 20
         uses: actions/setup-node@v3
         with:
           node-version: 20
@@ -26,6 +26,6 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: ${{ env.FILENAME }}
-          path:  my_data.xlsx
+          path:  monitor.xlsx
       - name: Set output filename
         run: echo "filename=${{ env.FILENAME }}" >> $GITHUB_ENV

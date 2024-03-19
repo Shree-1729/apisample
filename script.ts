@@ -37,6 +37,6 @@ generateExcel(dataAsArray, filename);
 const apiUrl = '${{secrets.APIENDPOINT}}';
  const currentDate = new Date();
  const formattedDate = currentDate.toISOString().replace(/:/g, '-').replace(/\..+/, '');  
-const filename =`${formattedDate}.xlsx`;
+const filename =`monitor.xlsx`;
 
 downloadExcel(apiUrl, filename);
