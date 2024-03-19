@@ -87,7 +87,12 @@ function downloadExcel(apiUrl, filename) {
         });
     });
 }
+<<<<<<< HEAD
 // Example usage: Replace 'https://your-api.com/data' with your actual API URL
 var apiUrl = 'https://jsonplaceholder.typicode.com/todos/1';
 var filename = 'monitor.xlsx';
+=======
+var apiUrl = "https://jsonplaceholder.typicode.com/todos/1";
+var filename = 'my_data.xlsx';
+>>>>>>> 92d5bea46cfadc45738fcd51015b59986acf4454
 downloadExcel(apiUrl, filename);

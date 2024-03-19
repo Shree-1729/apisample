@@ -1,0 +1,31 @@
+name: Download Excel Sheet
+on:
+  push:
+    branches: [main]
+jobs:
+  download_excel:
+    runs-on: ubuntu-latest  # Replace with your preferred runner OS
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Use Node.js 20
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - name: Install dependencies
+        run: npm install   
+      - name: Download and create Excel
+        run: |
+          tsc script.ts
+          node script.js 
+        env:
+          API_URL: 'https://jsonplaceholder.typicode.com/todos/1' 
+      - name: Capture filename and save to state
+        run: echo "FILENAME=$(date +'%Y-%m-%d-%H-%M-%S').xlsx" >> $GITHUB_ENV
+      - name: Upload Excel file
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.FILENAME }}
+          path:  monitor.xlsx
+      - name: Set output filename
+        run: echo "filename=${{ env.FILENAME }}" >> $GITHUB_ENV
