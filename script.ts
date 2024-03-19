@@ -34,7 +34,7 @@ generateExcel(dataAsArray, filename);
 }
 
 // Example usage: Replace 'https://your-api.com/data' with your actual API URL
-const apiUrl = 'https://jsonplaceholder.typicode.com/todos/1';
-const filename = 'my_data.xlsx';
+const apiUrl =  'https://jsonplaceholder.typicode.com/todos/1';
+const filename = 'monitor.xlsx';
 
 downloadExcel(apiUrl, filename);

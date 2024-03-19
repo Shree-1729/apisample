@@ -89,5 +89,5 @@ function downloadExcel(apiUrl, filename) {
 }
 // Example usage: Replace 'https://your-api.com/data' with your actual API URL
 var apiUrl = 'https://jsonplaceholder.typicode.com/todos/1';
-var filename = 'my_data.xlsx';
+var filename = 'monitor.xlsx';
 downloadExcel(apiUrl, filename);
