@@ -1,48 +1,32 @@
 name: Download Excel Sheet
-
-# This workflow runs on push events to the main branch
 on:
   push:
     branches: [main]
-
-# Jobs to be executed in the workflow
 jobs:
   download_excel:
     runs-on: ubuntu-latest  # Replace with your preferred runner OS
-
     steps:
-      # Checkout the code
       - name: Checkout code
         uses: actions/checkout@v3
-
-      # Use Node.js 16
       - name: Use Node.js 16
         uses: actions/setup-node@v3
         with:
-          node-version: 16
-
-      # Install dependencies (assuming Node.js)
+          node-version: 20
       - name: Install dependencies
         run: npm install  # Adjust if you use a different package manager
-
-      # Download data and generate Excel sheet
       - name: Download and create Excel
         run: |
           tsc script.ts
-          node script.js  # Replace with your script filename
+          node script.js 
         env:
-          API_URL: 'https://jsonplaceholder.typicode.com/todos/1'  # Replace with your actual API URL
-
-      # Capture the filename generated dynamically and save it to GITHUB_STATE
+          API_URL: 'https://jsonplaceholder.typicode.com/todos/1' 
       - name: Capture filename and save to state
         run: echo "FILENAME=$(date +'%Y-%m-%d-%H-%M-%S').xlsx" >> $GITHUB_ENV
-
-      # Upload generated Excel file as an artifact
       - name: Upload Excel file
         uses: actions/upload-artifact@v3
         with:
           name: ${{ env.FILENAME }}
-          path:  ${{ env.FILENAME }}.xlsx  # Replace with your output filename
+          path:  ${{ env.FILENAME }} 
 
       # Set output filename using GITHUB_OUTPUT
       - name: Set output filename
