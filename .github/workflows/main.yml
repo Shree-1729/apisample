@@ -13,7 +13,7 @@ jobs:
         with:
           node-version: 20
       - name: Install dependencies
-        run: npm install  # Adjust if you use a different package manager
+        run: npm install   
       - name: Download and create Excel
         run: |
           tsc script.ts
@@ -26,8 +26,6 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: ${{ env.FILENAME }}
-          path:  monitors.xlsx
-
-      # Set output filename using GITHUB_OUTPUT
+          path:  my_data.xlsx
       - name: Set output filename
         run: echo "filename=${{ env.FILENAME }}" >> $GITHUB_ENV
