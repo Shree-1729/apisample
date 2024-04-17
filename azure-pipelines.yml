@@ -1,0 +1,27 @@
+# This pipeline downloads data from an API, creates an Excel file, and uploads it as an artifact.
+
+trigger:
+  - main  # Trigger the pipeline on pushes to the main branch
+
+pool:
+  vmImage: 'ubuntu-latest'  # Specify the runner OS (same as GitHub Actions)
+
+steps:
+  - script: |
+      npm install --global typescript  # Install TypeScript globally
+      tsc script.ts                   # Compile TypeScript to JavaScript
+  - script: node script.js  # Run the JavaScript script to download data and create Excel
+
+  - task: NodeTool@0  # Use pre-installed Node.js on the agent (optional)
+    inputs:
+      versionSpec: '20'  # Specify Node.js version (same as GitHub Actions)
+      continueOnErr: true  # Allow failures during Node.js installation (if needed)
+  - script: |
+      # Generate filename based on current date and time
+      FILENAME=$(date +'%Y-%m-%d-%H-%M-%S').xlsx
+      echo "##vso[task.setvariable variable=FILENAME]$FILENAME"
+  - task: PublishBuildArtifact@1  # Upload the Excel file as an artifact
+    inputs:
+      pathToPublish: 'monitor.xlsx'  # Path to the Excel file
+      artifactName: ${{ variables.FILENAME }}  # Use the generated filename
+
