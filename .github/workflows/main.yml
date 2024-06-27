@@ -1,32 +1,78 @@
-name: Download Excel Sheet
+name: Run Different Scripts
+
 on:
-  workflow_dispatch: 
-  push:
-    branches: [main]
+  workflow_dispatch:
+  schedule:
+    # Run at 00:00 on every Sunday
+    - cron: '0 0 * * 0'
+
 jobs:
-  download_excel:
-    runs-on: ubuntu-latest  # Replace with your preferred runner OS
+  # Job for running script.ts on workflow dispatch
+  run_app_ts:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+
       - name: Use Node.js 20
         uses: actions/setup-node@v3
         with:
           node-version: 20
+
       - name: Install dependencies
-        run: npm install   
-      - name: Download and create Excel
+        run: npm install
+
+      - name: Compile and run script.ts
         run: |
           tsc script.ts
-          node script.js 
+          node script.js
         env:
-          API_URL: 'https://jsonplaceholder.typicode.com/todos/1' 
+          API_URL: 'https://jsonplaceholder.typicode.com/todos/1'
+
       - name: Capture filename and save to state
         run: echo "FILENAME=$(date +'%Y-%m-%d-%H-%M-%S').xlsx" >> $GITHUB_ENV
+
       - name: Upload Excel file
         uses: actions/upload-artifact@v3
         with:
           name: ${{ env.FILENAME }}
-          path:  monitor.xlsx
+          path: monitors.xlsx
+
+      - name: Set output filename
+        run: echo "filename=${{ env.FILENAME }}" >> $GITHUB_ENV
+
+  # Job for running file.ts on schedule (cron job)
+  run_file_ts:
+    if: github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Use Node.js 20
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Compile and run file.ts
+        run: |
+          tsc file.ts
+          node file.js
+        env:
+          API_URL: 'https://jsonplaceholder.typicode.com/todos/1'
+
+      - name: Capture filename and save to state
+        run: echo "FILENAME=$(date +'%Y-%m-%d-%H-%M-%S').xlsx" >> $GITHUB_ENV
+
+      - name: Upload Excel file
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.FILENAME }}
+          path: output-file.xlsx
+
       - name: Set output filename
         run: echo "filename=${{ env.FILENAME }}" >> $GITHUB_ENV
